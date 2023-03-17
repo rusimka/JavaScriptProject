@@ -255,11 +255,115 @@ loadMoreBtn.addEventListener("click", () => {
     }
 });
 
+// add event listener to Color Input Field
+const colorInput = document.querySelector("#cardBackgroundColor");
+const cards = document.getElementsByClassName('card');
+colorInput.addEventListener("input", () => {
+    setBackgroundColor(colorInput.value);
+});
+
+function setBackgroundColor(backgroundColor) {
+    for(let i=0;i<cards.length;i++){
+        cards[i].style.backgroundColor=backgroundColor;
+    }
+}
+
+// event listener to Choose Theme input
+const lightTheme = document.getElementById('lightTheme');
+const darkTheme = document.getElementById('darkTheme');
+
+function setLightTheme() {
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].style.backgroundColor = 'white';
+        cards[i].style.color = 'black';
+    }
+}
+
+function setDarkTheme() {
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].style.backgroundColor = 'black';
+        cards[i].style.color = 'white';
+    }
+}
+
+lightTheme.addEventListener('change', function() {
+    if (lightTheme.checked) {
+        setLightTheme();
+    }
+});
+
+darkTheme.addEventListener('change', function() {
+    if (darkTheme.checked) {
+        setDarkTheme();
+    }
+});
+
+// event listener for choosing source type
+const all = document.getElementById("all");
+const instagramable = document.getElementById("instagram");
+const fb = document.getElementById("facebook");
+const twit = document.getElementById("twitter");
+
+
+instagramable.addEventListener('change', function () {
+    if (instagramable.checked) {
+        // first clear the cardContainer html
+        cardContainer.innerHTML="";
+        // second get all cards that have source type instagram
+        for (let i = 0; i < data.length; i++) {
+            if(data[i].source_type==='instagram'){
+                cardContainer.innerHTML+=createCard(data[i]); // this will be very slow performance
+            }
+        }
+    }
+});
+
+fb.addEventListener('change', function () {
+    if (fb.checked) {
+        // first clear the cardContainer html
+        cardContainer.innerHTML="";
+        // second get all cards that have source type instagram
+        for (let i = 0; i < data.length; i++) {
+            if(data[i].source_type==='facebook'){
+                cardContainer.innerHTML+=createCard(data[i]); // this will be very slow performance
+            }
+        }
+    }
+});
+
+twit.addEventListener('change', function () {
+    if (twit.checked) {
+        // first clear the cardContainer html
+        cardContainer.innerHTML="";
+        // second get all cards that have source type instagram
+        for (let i = 0; i < data.length; i++) {
+            if(data[i].source_type==='twitter'){
+                cardContainer.innerHTML+=createCard(data[i]); // this will be very slow performance
+            }
+        }
+    }
+});
+
+all.addEventListener('change', function () {
+    if (all.checked) {
+        // first clear the cardContainer html
+        cardContainer.innerHTML="";
+        // second get all cards that have source type instagram
+        for (let i = 0; i < data.length; i++) {
+            cardContainer.innerHTML+=createCard(data[i]); // this will be very slow performance
+
+        }
+    }
+});
+
+
+
 // create a card element with the given data
 function createCard(cardData) {
     // create the card element
     const card = document.createElement("div");
     card.classList.add("card");
+
 
 
     // add the profile image
@@ -276,7 +380,16 @@ function createCard(cardData) {
 
     // add the source icon
     const sourceIcon = document.createElement("img");
-    const iconPath = cardData.source_type === "facebook" ? "./icons/facebook.svg" : "./icons/instagram.svg";
+    let iconPath = '';
+    if(cardData.source_type === "facebook") {
+        // PRIPAZI NA OVOJ DEL, SMENI GO SO TVOJATA ABSOLUTNA PATEKA
+         iconPath = cardData.source_type === "C:/Users/rusimka.dineva/Desktop/DuskoVeshkovich/JS&CSSChallenge-Intern-2023/icons/facebook.svg";
+    }
+    if(cardData.source_type === "instagram") {
+        // PRIPAZI NA OVOJ DEL, SMENI GO SO TVOJATA ABSOLUTNA PATEKA
+         iconPath = cardData.source_type === "C:/Users/rusimka.dineva/Desktop/DuskoVeshkovich/JS&CSSChallenge-Intern-2023/icons/instagram-logo.svg";
+    }
+
     sourceIcon.src = iconPath;
     sourceIcon.classList.add("source-icon");
     card.appendChild(sourceIcon);
@@ -337,3 +450,5 @@ function createCard(cardData) {
 
     return card.outerHTML;
 }
+
+
